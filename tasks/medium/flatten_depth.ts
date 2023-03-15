@@ -12,14 +12,18 @@
   > View on GitHub: https://tsch.js.org/3243
 */
 // Solution
-// Как цэ решить
-type FlattenDepth<A, D extends number = 1> = 
-  A extends [] ? A : 
-  D extends 0 ? A : 
-  A extends [infer H, ...infer T] ?
-    H extends Array<any> ?
-      [...FlattenDepth<H, MinusOne<D>>, ...FlattenDepth<T, MinusOne<D>>] :
-      [H, ...FlattenDepth<T, D>] :
-    A;
-    
-type MinusOne<N extends number> = N extends 0 ? 0 : {[K in keyof any[]]: K extends `${N - 1}` ? never : K }[keyof any[]] & number;
+type Flattens<T extends any[]> = T extends [infer K, ...infer U]
+  ? K extends any[]
+    ? [...K, ...Flattens<U>]
+    : [K, ...Flattens<U>]
+  : [];
+
+type FlattenDepth<
+  T extends any[],
+  D extends number = 1,
+  A extends 0[] = [],
+> = A["length"] extends D
+  ? T
+  : Flattens<T> extends T
+  ? T
+  : FlattenDepth<Flattens<T>, D, [...A, 0]>;
