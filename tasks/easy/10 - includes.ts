@@ -11,7 +11,7 @@
 */
 
 // Solution
-import type { Equal } from "@type-challenges/utils"; // эта штука экспортируется в playground этиъ задач
+import type { Equal } from "@type-challenges/utils"; // эта библиотека экспортируется в playground этих задач
 
 type Includes<T extends readonly any[], U> = T extends [
   infer Current,
